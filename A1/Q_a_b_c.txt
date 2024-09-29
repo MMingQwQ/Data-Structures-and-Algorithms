@@ -1,0 +1,106 @@
+***************************************************************************
+Q_a) Algorithm
+Recursive Multiple:
+Algorithm oddonacciMultiple(n)
+    Input: integer n representing position
+    Output: Oddonacci number at position n
+    
+    if n = 1 or n = 2 or n = 3:
+        return 1
+
+    return oddonacciMultiplep(n - 1) + oddonacciMultiple(n - 2) + oddonacciMultiple(n - 3)
+
+
+Recursive Linear:
+Algorithm oddonacciLinear(n)
+	Input: integer n representing position
+	Output: Oddonacci number at position n
+
+	A <- array of size (n + 1) filled with -1
+	return oddonacci(n, A)
+
+	// A helper function
+	Function oddonacci(n, A)
+		if n = 1 or n = 2 or n = 3:
+			return 1
+		
+		if A[n] != -1:
+			return A[n]
+
+		A[n] <-  oddonacci(n - 1, A) + oddonacci(n - 2, A) + oddonacci(n - 3, A)
+		return A[n]
+
+***************************************************************************
+Q_b)Detailed comparison
+**1) Recursive Multiple:
+According to the output time observation, it seems like it grows exponentially.
+Analysis by using Recursion Tree:
+For example: n = 4
+oddonacciMultiple(4)
+├── oddonacciMultiple(3)
+│   ├── oddonacciMultiple(2)
+│   ├── oddonacciMultiple(1)
+│   └── oddonacciMultiple(0)
+├── oddonacciMultiple(2)
+├── oddonacciMultiple(1)
+
+For n > 3, each call generates three more calls. So the time complexity T(n) can be expressed as: T(n) = T(n-1) + T(n-2) + T(n-3) + O(1).The depth of the recursion tree is 'n',
+And at each level, the number of nodes increased by a factor of 3. So, the number of calls at each level of depth 'n' is appropriately 3^n.
+Therefore, the time complexity of first algorithm oddonacciMultiple is O(3^n).
+
+*Bottleneck*: The bottleneck is the redundant calculations. Each recursive call recomputes the Oddonacci numbers for previous positions multiple times, leading to an exponential growth in the number of calculations.
+
+The second algorithm oddonacciLinear calculates the same result but uses array to store previously computed values.
+
+**2) Recursive Linear: 
+According to the output time observation, it seems like it grows linearly.
+Analysis:
+The time complexity of second algorithm	is Linear O(n) since each Oddonacci number was calculated once and then stored into an array A. Then the subsequent calls to compute the Oddonacci number for a given position can reuse the stored value, which improve the efficiency and remove the redundant calculations. 
+Therefore, the time complexity of second algorithm oddonacciLinear is O(n).
+
+***************************************************************************
+Q_c)
+**Do any of the previous two algorithms use tail recursion? 
+-> No, they do not use tail recursion. Tail recursion is a special recursion where the recessive call is the the last operation in the function without extra operations.
+
+*For first algorithm oddonacciMultiple:
+It returns oddonacciMultiplep(n - 1) + oddonacciMultiple(n - 2) + oddonacciMultiple(n - 3). The recursive calls are not the last operation. There is an extra operation	to add them together. 
+
+*For second algorithm oddonacciLinear: 
+A[n] <- oddonacci(n - 1, A) + oddonacci(n - 2, A) + oddonacci(n - 3, A)
+return A[n]
+The memoized results are summed up after the recursive calls return. So the recursive calls are not last operation.
+
+Therefore, both of them do not use tail recursion.
+
+**Can a tail-recursive version of Oddonacci calculator be designed?
+-> Yes, the pseudocode as follows:
+Algorithm oddonacciTail(n)
+	Input: integer n representing position
+	Output: Oddonacci number at position n
+	
+	// Initial call helper function with initial values for a, b, and c
+	return oddonacciHelper(n, 1, 1, 1)
+
+	// A helper function
+	Function oddonacciHelper(n, a, b, c)
+		Input: integer n, integer a, b, c representing the last three Oddonacci numbers
+
+		if n = 1:
+			return a
+		if n = 2:
+			return b
+		if n = 3:
+			return c
+
+		return oddonacciHelper(n - 1, b, c, a + b + c)
+-----------------------------------------------------------------------------------------
+Time complexity: 
+Let's check : n = 5
+Call 1: oddonacciHelper(5, 1, 1, 1) -> this calls oddonacciHelper(4, 1, 1, 3) 
+Call 2: oddonacciHelper(4, 1, 1, 3) -> this calls oddonacciHelper(3, 1, 3, 5) 
+Call 3: oddonacciHelper(3, 1, 3, 5) -> this calls oddonacciHelper(2, 3, 5, 9) 
+Call 4: oddonacciHelper(2, 3, 5, 9) -> this calls oddonacciHelper(1, 5, 9, 17) return 5
+oddonacciTail(5) = 5
+
+When input is n, there are n-1 recursive calls in total, so the time complexity is O(n).

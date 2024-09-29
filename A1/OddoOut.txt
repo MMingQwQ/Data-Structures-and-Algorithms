@@ -1,0 +1,32 @@
+oddonacciMultiple(5) = 5 (Time: 1250 ns)
+oddonacciLinear(5) = 5 (Time: 6500 ns)
+oddonacciTail(5) = 5 (Time: 958 ns)
+
+oddonacciMultiple(10) = 105 (Time: 5042 ns)
+oddonacciLinear(10) = 105 (Time: 1708 ns)
+oddonacciTail(10) = 105 (Time: 500 ns)
+
+oddonacciMultiple(15) = 2209 (Time: 77125 ns)
+oddonacciLinear(15) = 2209 (Time: 2166 ns)
+oddonacciTail(15) = 2209 (Time: 625 ns)
+
+oddonacciMultiple(20) = 46499 (Time: 182458 ns)
+oddonacciLinear(20) = 46499 (Time: 2417 ns)
+oddonacciTail(20) = 46499 (Time: 709 ns)
+
+oddonacciMultiple(25) = 978793 (Time: 2202458 ns)
+oddonacciLinear(25) = 978793 (Time: 5583 ns)
+oddonacciTail(25) = 978793 (Time: 1000 ns)
+
+oddonacciMultiple(30) = 20603361 (Time: 35641792 ns)
+oddonacciLinear(30) = 20603361 (Time: 37958 ns)
+oddonacciTail(30) = 20603361 (Time: 1625 ns)
+
+oddonacciMultiple(35) = 433695873 (Time: 719242041 ns)
+oddonacciLinear(35) = 433695873 (Time: 49709 ns)
+oddonacciTail(35) = 433695873 (Time: 6417 ns)
+
+oddonacciMultiple(40) = 9129195487 (Time: 15329780250 ns)
+oddonacciLinear(40) = 9129195487 (Time: 12875 ns)
+oddonacciTail(40) = 9129195487 (Time: 15542 ns)
+

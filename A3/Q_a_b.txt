@@ -1,0 +1,159 @@
+Student Name: Mingming Zhang
+COMP352 Section (AB)
+Assignment # 3
+
+***a)The SPQ needs to be adaptable and flexible, using a parameterized heap that can switch between min-heap and max-heap behaviour. I will start as min-heap.
+Array Representation: if node is i, then left child is 2*i+1 and right child is 2*i+2. And it's necessary to use dynamic array, which means need to handle resizing the array when it gets full.
+
+Pseudocode of the implementation of the SPQ ADT:
+class SPQ
+    array ← dynamicArray()
+    size ← 0
+    isMinHeap ← true
+
+//• toggle(): transforms a min- to a max-priority queue or vice versa.
+    function toggle()
+        isMinHeap ← not isMinHeap
+        for i ← (size - 1) / 2 down to 0
+            heapifyDown(i)
+
+//• removeTop(): removes and returns the entry object (a key, value pair) with the smallest or biggest key depending on the current state of the priority queue (either Min or Max).
+    function removeTop()
+        if isEmpty()
+            return null
+        top ← array[0]
+        array[0] ← array[size - 1]
+        size ← size - 1
+        heapifyDown(0)
+        return top
+
+//• insert(k,v): insert (k,v) which is a key(k), value(v) pair to the priority queue, and returns the corresponding entry object in the priority queue.
+    function insert(k, v)
+        entry ← {key: k, value: v}
+        array.append(entry)
+        heapifyUp(size() - 1)
+	return entry
+
+
+//• top(): returns the top entry (with the minimum or the maximum key depending on whether it is a Min- or Max-priority queue, without removing the entry.
+    function top()
+        if isEmpty()
+            return null
+        return array[0]
+
+//• remove(e): Removes entry object e from the priority queue and returns the entry.
+    function remove(entry)
+        for i from 0 to size - 1
+            if array[i] equals entry
+                removedEntry ← array[i]
+                array[i] ← array[size - 1]
+                size ← size - 1
+                heapifyDown(i)
+                return removedEntry
+        return null
+
+//• replaceKey(e, k): replace entry e’s key to k and return the old key.e is entry, k is new key.
+    function replaceKey(entry, newKey)
+        for i from 0 to size - 1
+            if array[i] equals entry
+                oldKey ← array[i].key
+                array[i].key ← newKey
+                if isMinHeap
+                    if newKey < oldKey
+                        heapifyUp(i)
+                    else
+                        heapifyDown(i)
+                else
+                    if newKey > oldKey
+                        heapifyUp(i)
+                    else
+                        heapifyDown(i)
+                return oldKey
+        return -1
+
+//• replaceValue(e, v): replace entry e’s value to v and return the old value.
+    function replaceValue(e, v)
+        for i from 0 to size() - 1
+            if array[i] == e
+                oldValue ← array[i].value
+                array[i].value ← v
+                return oldValue
+        return -1
+
+
+//• state(): returns the current state (Min or Max) of the priority queue.
+    function state()
+        if isMinHeap
+            return "Min"
+        else
+            return "Max"
+
+//• isEmpty(): returns true if the priority queue is empty.
+    function isEmpty()
+        return size() == 0
+
+//• size(): returns the current number of entries in the priority queue
+    function size()
+        return size
+
+// Helper functions
+//• swap(i, j): help to maintain the heap property during heapify operations.
+    function swap(i, j)
+        temp ← array[i]
+        array[i] ← array[j]
+        array[j] ← temp
+
+//• heapifyUp(index): ensures that the heap property is maintained as an element is moved up the tree.
+    function heapifyUp(index)
+        parentIndex ← (index - 1) / 2
+        if parentIndex < 0
+            return
+        if isMinHeap
+            if array[index].key < array[parentIndex].key
+                swap(index, parentIndex)
+                heapifyUp(parentIndex)
+        else
+            if array[index].key > array[parentIndex].key
+                swap(index, parentIndex)
+                heapifyUp(parentIndex)
+
+//• heapifyDown(index, size): ensures that the heap property is maintained as an element is moved down the tree.
+    function heapifyDown(index, size)
+        leftChildIndex ← 2 * index + 1
+        rightChildIndex ← 2 * index + 2
+        swapIndex ← index
+
+        if leftChildIndex < size
+            if isMinHeap
+                if array[leftChildIndex].key < array[swapIndex].key
+                    swapIndex ← leftChildIndex
+            else
+                if array[leftChildIndex].key > array[swapIndex].key
+                    swapIndex ← leftChildIndex
+
+        if rightChildIndex < size
+            if isMinHeap
+                if array[rightChildIndex].key < array[swapIndex].key
+                    swapIndex ← rightChildIndex
+            else
+                if array[rightChildIndex].key > array[swapIndex].key
+                    swapIndex ← rightChildIndex
+
+        if swapIndex != index
+            swap(index, swapIndex)
+            heapifyDown(swapIndex, size)
+
+-----------------------------------------------------------------------------------------------------
+***b)Tight Big-O time complexity:
+->toggle(): O(nlogn)
+This method changes the heap from a min-heap to a max-heap or vice versa. It flips the state of the heap and rebuilds it by calling heapifyDown() on each non-leaf node. The heapifyDown() takes O(logn) and it is called O(n) times. Therefore, the total time complexity is O(n*logn) = O(nlogn).
+
+->remove(e): O(n)
+The remove(e) method finds the specified entry in the heap, replaces it with the last element, removes it, and then calls heapifyDown() to restore the heap property. Find the entry takes O(n) time and heapifyDown() takes O(logn), therefore, the total time complexity is O(n) + O(logn) = O(n). 
+
+
+->replaceKey(e, k): O(n)
+Similar to remove, this method finds the specified entry in the heap, updates its key, and then calls either heapifyUp() or heapifyDown() to restore the heap property. Find the entry takes O(n) time and heapifyDown() takes O(logn), therefore, the total time complexity is O(n) + O(logn) = O(n). 
+
+->replaceValue(e, v) : O(n)
+This method finds the specified entry in the heap and updates its value. Finding the entry takes O(n), and updating the value takes O(1) time, which results a total time complexity of O(n) + O(1) = O(n).
