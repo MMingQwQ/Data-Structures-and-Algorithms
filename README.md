@@ -12,8 +12,6 @@ This repository contains the implementations and solutions for three assignments
 - Working with priority queues and heaps for managing priority data.
 - Designing efficient and flexible ADTs (Abstract Data Types).
 
----
-
 ## Assignment 1: Oddonacci Numbers
 
 **Description:**  
